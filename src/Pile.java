@@ -10,7 +10,7 @@ public class Pile<AnyType extends Comparable<AnyType>> implements MySimpleList<A
 	protected Node<AnyType> head;
 	protected int size = 0;
 
-	static class Node<AnyType> {
+	protected static class Node<AnyType> {
 		private AnyType object;
 		private Node<AnyType> next;
 
