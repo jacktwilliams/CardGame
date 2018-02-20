@@ -11,10 +11,15 @@ import java.util.Random;
 
 public class Deck<AnyType extends Comparable<AnyType>> extends Pile<AnyType> {
 	private class elementGroup {
-		private AnyType soloElement;
-		private AnyType groupElement1;
-		private AnyType groupElement2;
+		private Node<AnyType> soloElement;
+		private Node<AnyType> groupElement1;
+		private Node<AnyType> groupElement2;
+		private Node<AnyType> preSolo;
+		private Node<AnyType> preGroup;
+		
 		int indexSolo, indexG1, indexG2;
+		
+		boolean adjacent = false, itemAtHead = false;
 
 		private elementGroup() {
 			Random randr = new Random();
@@ -30,6 +35,47 @@ public class Deck<AnyType extends Comparable<AnyType>> extends Pile<AnyType> {
 			while(indexSolo == indexG1 || indexSolo == indexG2){
 				indexSolo = randr.nextInt(size - 1);
 			}
+			
+			indexSolo = 5;
+			indexG1 = 6;
+			indexG2 = 7;
+			makePointers();
+		}
+		
+		private void makePointers() {
+			Node<AnyType> current = head;
+			
+			for(int i = 0; i < size - 1; i++) {
+				if(i == indexSolo -1) {
+					preSolo = current;
+				}
+				if (i == indexSolo) {
+					soloElement = current;
+				}
+				
+				if (i == indexG1 - 1) {
+					preGroup = current;
+				}
+				if(i == indexG1) {
+					groupElement1 = current;
+				}
+				if(i == indexG2) {
+					groupElement2 = current;
+				}
+				
+				current = current.next;
+			}
+			
+			if(indexSolo + 1 == indexG1 || indexG2 + 1 == indexSolo) {
+				adjacent = true;
+			}
+			
+			System.out.println("preSolo" + preSolo + "\n" +
+								"soloElement" + soloElement + "\n" +
+								"preGroup" + preGroup + "\n" +
+								"groupElement1" + groupElement1 + "\n");
+			 
+			
 		}
 	}
 	
@@ -78,29 +124,31 @@ public class Deck<AnyType extends Comparable<AnyType>> extends Pile<AnyType> {
 		return removed;
 	}
 	
-	final int SHUFFLEX = 1000;
+	final int SHUFFLEX = 1;
 	public void shuffle(){
 		elementGroup tS; //toShuffle
 		for(int i = 0; i < SHUFFLEX; i++){
 			tS = new elementGroup();
-			
-			tS.soloElement = this.indexRemove(tS.indexSolo);
-			
-			if(tS.indexSolo < tS.indexG1){
-				tS.groupElement1 = this.indexRemove(tS.indexG1 - 1);//after removing solo element, this element index is one less than before
-				tS.groupElement2 = this.indexRemove(tS.indexG2 - 2); // this element's index is now two less than when picked
-				
-				this.indexAdd(tS.indexSolo, tS.groupElement1);
-				this.indexAdd(tS.indexSolo + 1, tS.groupElement2); //increase index by one to indexAdd second element after first
-				this.indexAdd(tS.indexG1 + 1, tS.soloElement); //increase index by one because extra element was indexAdded towards head
-			}
-			else{
-				tS.groupElement1 = this.indexRemove(tS.indexG1); 
-				tS.groupElement2 = this.indexRemove(tS.indexG2 - 1); //after removing indexG1, this element's index is one less than before
-				
-				this.indexAdd(tS.indexSolo - 2, tS.groupElement1); //two elements missing towards head
-				this.indexAdd(tS.indexSolo - 1, tS.groupElement2); //increase index by one to indexAdd second element after first
-				this.indexAdd(tS.indexG1, tS.soloElement); 
+
+			if (tS.adjacent) {
+				if (tS.indexSolo < tS.indexG1) {
+					tS.preSolo.next = tS.groupElement1;
+					tS.preGroup.next = tS.groupElement2.next;
+					tS.groupElement2.next = tS.preGroup;
+				}
+				else {
+					tS.preGroup = tS.soloElement;
+					tS.groupElement2.next = tS.soloElement.next;
+					tS.soloElement.next = tS.groupElement1;
+				}
+			} else {
+
+				tS.preSolo.next = tS.groupElement1;
+				Node<AnyType> soloNext = tS.soloElement.next;
+				tS.soloElement.next = tS.groupElement2.next;
+
+				tS.groupElement2.next = soloNext;
+				tS.preGroup.next = tS.soloElement;
 			}
 		} //end for loop		
 	}

@@ -18,6 +18,10 @@ public class Pile<AnyType extends Comparable<AnyType>> {
 			object = obj;
 			this.next = next;
 		}
+		
+		public String toString() {
+			return object.toString();
+		}
 	}
 
 	public Pile() {
