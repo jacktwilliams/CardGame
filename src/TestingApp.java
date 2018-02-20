@@ -3,7 +3,7 @@
  * Testing app for testing deck and its shuffle method
  */
 public class TestingApp {
-	final static int DECKSIZE = 10;
+	final static int DECKSIZE = 52;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

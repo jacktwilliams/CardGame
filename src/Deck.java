@@ -36,16 +36,13 @@ public class Deck<AnyType extends Comparable<AnyType>> extends Pile<AnyType> {
 				indexSolo = randr.nextInt(size - 1);
 			}
 			
-			indexSolo = 5;
-			indexG1 = 6;
-			indexG2 = 7;
 			makePointers();
 		}
 		
 		private void makePointers() {
 			Node<AnyType> current = head;
-			
-			for(int i = 0; i < size - 1; i++) {
+						
+			for(int i = 0; i < size; i++) {
 				if(i == indexSolo -1) {
 					preSolo = current;
 				}
@@ -62,23 +59,23 @@ public class Deck<AnyType extends Comparable<AnyType>> extends Pile<AnyType> {
 				if(i == indexG2) {
 					groupElement2 = current;
 				}
-				
-				current = current.next;
+
+				if( i != size-1) {
+					current = current.next;
+				}
 			}
 			
 			if(indexSolo + 1 == indexG1 || indexG2 + 1 == indexSolo) {
 				adjacent = true;
 			}
 			
-			System.out.println("preSolo" + preSolo + "\n" +
-								"soloElement" + soloElement + "\n" +
-								"preGroup" + preGroup + "\n" +
-								"groupElement1" + groupElement1 + "\n");
-			 
-			
+			if((indexSolo == 0) || (indexG1 == 0)) {
+				itemAtHead = true;
+			}
+
 		}
 	}
-	
+
 	private void indexAdd(int index, AnyType x) {
 		Node<AnyType> current = head;
 		
@@ -124,24 +121,56 @@ public class Deck<AnyType extends Comparable<AnyType>> extends Pile<AnyType> {
 		return removed;
 	}
 	
-	final int SHUFFLEX = 1;
+	final int SHUFFLEX = 1000;
 	public void shuffle(){
 		elementGroup tS; //toShuffle
 		for(int i = 0; i < SHUFFLEX; i++){
 			tS = new elementGroup();
 
-			if (tS.adjacent) {
+			if(tS.adjacent && tS.itemAtHead) {
+				if(tS.indexSolo < tS.indexG1) {
+					head = tS.groupElement1;
+					tS.soloElement.next = tS.groupElement2.next;
+					tS.groupElement2.next = tS.soloElement;
+				}
+				else {
+					tS.groupElement2.next = tS.soloElement.next;
+					tS.soloElement.next = tS.groupElement1;
+					head = tS.soloElement;
+				}
+			}
+			else if (tS.adjacent) {
 				if (tS.indexSolo < tS.indexG1) {
 					tS.preSolo.next = tS.groupElement1;
 					tS.preGroup.next = tS.groupElement2.next;
 					tS.groupElement2.next = tS.preGroup;
 				}
 				else {
-					tS.preGroup = tS.soloElement;
+					tS.preGroup.next = tS.soloElement;
 					tS.groupElement2.next = tS.soloElement.next;
 					tS.soloElement.next = tS.groupElement1;
 				}
-			} else {
+			} 
+			else if(tS.itemAtHead){
+				if (tS.indexSolo < tS.indexG1) {
+					Node<AnyType> g2Next = tS.groupElement2.next;
+					
+					tS.preGroup.next = tS.soloElement;
+					head = tS.groupElement1;
+					tS.groupElement2.next = tS.soloElement.next;
+					tS.soloElement.next = g2Next;
+				}
+				else {
+					Node<AnyType> soloNext = tS.soloElement.next;
+					
+					tS.soloElement.next = tS.groupElement2.next;
+					head = tS.soloElement;
+					tS.groupElement2.next = soloNext;
+					tS.preSolo.next = tS.groupElement1;
+				}
+				
+			}
+			else {
 
 				tS.preSolo.next = tS.groupElement1;
 				Node<AnyType> soloNext = tS.soloElement.next;
