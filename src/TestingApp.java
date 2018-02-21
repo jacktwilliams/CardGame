@@ -10,8 +10,8 @@ public class TestingApp {
 		Deck<Card> deck = new Deck<Card>();
 		Deck<Card> copy = new Deck<Card>(); //toString results in empty deck. copy is for testing.
 		for (int i = 0; i < DECKSIZE; i++) {
-			deck.add(new Card(i));
-			copy.add(new Card(i));
+			deck.add(new Card(i, "spades"));
+			copy.add(new Card(i, "spades"));
 		}
 		
 		

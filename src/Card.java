@@ -1,9 +1,11 @@
 
 public class Card implements Comparable<Card>{
 	private int number;
+	private String suit;
 	
-	public Card(int number){
+	public Card(int number, String suit){
 		this.number = number;
+		this.suit = suit;
 	}
 
 	public int compareTo(Card o) {
@@ -16,7 +18,11 @@ public class Card implements Comparable<Card>{
 		return this.number;
 	}
 	
+	public String getSuit() {
+		return this.suit;
+	}
+	
 	public String toString(){
-		return String.valueOf(getNumber());
+		return String.valueOf(getNumber() + suit);
 	}
 }
