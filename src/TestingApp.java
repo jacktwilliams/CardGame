@@ -7,6 +7,7 @@ public class TestingApp {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		/*
 		Deck<Card> deck = new Deck<Card>();
 		Deck<Card> copy = new Deck<Card>(); //toString results in empty deck. copy is for testing.
 		for (int i = 0; i < DECKSIZE; i++) {
@@ -18,6 +19,10 @@ public class TestingApp {
 		deck.shuffle();
 		
 		System.out.println(deck);
+		*/
+		
+		ClubDeck theDeck = new ClubDeck();
+		System.out.println(theDeck.toString());
 		
 	}
 }
