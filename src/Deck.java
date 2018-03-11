@@ -76,6 +76,7 @@ public class Deck<AnyType extends Comparable<AnyType>> extends Pile<AnyType> {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void indexAdd(int index, AnyType x) {
 		Node<AnyType> current = head;
 		
@@ -97,6 +98,7 @@ public class Deck<AnyType extends Comparable<AnyType>> extends Pile<AnyType> {
 		++this.size;
 	}
 	
+	@SuppressWarnings("unused")
 	private AnyType indexRemove(int index) {
 		Node<AnyType> current = head;
 		AnyType removed = null;

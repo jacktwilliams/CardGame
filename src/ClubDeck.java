@@ -1,39 +1,51 @@
-import javax.swing.text.html.HTMLDocument.Iterator;
-
 /*
  * Jack Williams
  * Simulates one Shuffled Deck of cards to play 'Clubs' with.
  */
 public class ClubDeck extends Deck<Card> {
-	
-	public ClubDeck() {
-		String suit = "clubs";
-		for(int i = 9; i < 15; i++) {
-			this.add(new Card(i, suit));
+	private Dealer gameDealer;
+	public ClubDeck(Dealer d) {
+		
+		gameDealer = d;
+		
+		String trump = gameDealer.getTrump();
+		
+		String suit = "Clubs";
+		int suitValue = gameDealer.getSuitValue(suit);
+		for(int i = 9; i < 15; ++i) {
+			this.add(new Card(i, suit, suitValue));
 		}
 		
-		suit = "diamonds";
-		for(int i = 9; i < 15; i++) {
-			this.add(new Card(i, suit));
+		suit = "Diamonds";
+		suitValue = gameDealer.getSuitValue(suit);
+		for(int i = 9; i < 15; ++i) {
+			this.add(new Card(i, suit, suitValue));
 		}
 		
-		suit = "hearts";
-		for(int i = 9; i < 15; i++) {
-			this.add(new Card(i, suit));
+		suit = "Hearts";
+		suitValue = gameDealer.getSuitValue(suit);
+		for(int i = 9; i < 15; ++i) {
+			this.add(new Card(i, suit, suitValue));
 		}
 		
-		suit = "spades";
-		for(int i = 9; i < 15; i++) {
-			this.add(new Card(i, suit));
+		suit = "Spades";
+		suitValue = gameDealer.getSuitValue(suit);
+		for(int i = 9; i < 15; ++i) {
+			this.add(new Card(i, suit, suitValue));
 		}
 		
-		this.add(new Card(15, "Joker"));
+		this.add(new Card(15, "Joker", 15)); //15 is highest suit-value
 		
 		this.shuffle();
 		
 		//Full deck is created and shuffled
 	}
 	
+	public void setDealer(Dealer d){
+		this.gameDealer = d;
+	}
+	
+	/*
 	public String toString(){
 		Node<Card> current = head;
 		Card crntCard;
@@ -47,4 +59,5 @@ public class ClubDeck extends Deck<Card> {
 		}
 		return result;
 	}
+	*/
 }

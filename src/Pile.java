@@ -70,12 +70,26 @@ public class Pile<AnyType extends Comparable<AnyType>> {
 	}
 	
 	//toString results in empty pile
+	/*
 	public String toString(){
 		String result = "";
 		result += String.valueOf(size) + "\n";
 		int loops = this.size; //size will decrease so we need a constant
 		for(int i = 0; i < loops; i++){
 			result += this.remove() + " ";
+		}
+		return result;
+	}
+	*/
+	
+	public String toString(){
+		String result = "";
+		Iterator<AnyType> itr = iterator();
+		AnyType current = head.object;
+		
+		for(int i = 0; i < size; ++i){
+			result += current.toString() + "\n";
+			current = itr.next();
 		}
 		return result;
 	}
