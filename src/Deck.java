@@ -75,53 +75,6 @@ public class Deck<AnyType extends Comparable<AnyType>> extends Pile<AnyType> {
 
 		}
 	}
-
-	@SuppressWarnings("unused")
-	private void indexAdd(int index, AnyType x) {
-		Node<AnyType> current = head;
-		
-		//iterate to node before position of the addition
-		for (int i = 0; i < index - 1; i++) {
-			current = current.next;
-		}
-
-		if (index == 0) {
-			Node<AnyType> addition = new Node<AnyType>(x, head);
-			head = addition;
-		} else if (index == size) {
-			Node<AnyType> addition = new Node<AnyType>(x, null);
-			current.next = addition;
-		} else {
-			Node<AnyType> addition = new Node<AnyType>(x, current.next);
-			current.next = addition;
-		}
-		++this.size;
-	}
-	
-	@SuppressWarnings("unused")
-	private AnyType indexRemove(int index) {
-		Node<AnyType> current = head;
-		AnyType removed = null;
-
-		for (int i = 0; i < index - 1; i++) {
-			current = current.next;
-		}
-		
-		if(index != 0) { //if clause necessary in order to avoid out-of-bounds when size is 1
-		removed = current.next.object; // save object to be removed
-		}
-
-		if (index == 0) {
-			removed = head.object;
-			head = current.next; // overwrite 'removed' to be head -- not current.next.
-		} else if (index == size) {
-			current.next = null;
-		} else {
-			current.next = current.next.next;
-		}
-		--size;
-		return removed;
-	}
 	
 	final int SHUFFLEX = 1000;
 	public void shuffle(){

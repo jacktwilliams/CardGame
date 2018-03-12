@@ -44,19 +44,19 @@ public class Dealer {
 		
 		int suitValue = 0;
 		
-		if(suit == gameTrump){
+		if(suit.equals(gameTrump)){
 			suitValue = 10;
 		}
-		else if (gameTrump == "Clubs" && suit == "Spades"){
+		else if (gameTrump.equals("Clubs") && suit.equals("Spades")){
 			suitValue = 5;
 		}
-		else if (gameTrump == "Spades" && suit == "Clubs"){
+		else if (gameTrump.equals("Spades") && suit.equals("Clubs")){
 			suitValue = 5;
 		}
-		else if (gameTrump == "Hearts" && suit == "Diamonds"){
+		else if (gameTrump.equals("Hearts") && suit.equals("Diamonds")){
 			suitValue = 5;
 		}
-		else if (gameTrump == "Diamonds" && suit == "Hearts"){
+		else if (gameTrump.equals("Diamonds") && suit.equals("Hearts")){
 			suitValue = 5;
 		}
 		else {
