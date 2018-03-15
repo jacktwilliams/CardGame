@@ -7,6 +7,7 @@ import javax.swing.text.html.HTMLDocument.Iterator;
 public class Dealer {
 	private String gameTrump;
 	private ClubDeck theDeck;
+	private ClubGame game;
 	private Card[] cardsPlayed;
 	private int numOfPlayers;
 	private Pile<Player> players;
@@ -32,7 +33,7 @@ public class Dealer {
 	}
 	
 	public Card[] getCardsPlayed(){
-		return cardsPlayed;
+		return game.getCardsPlayed();
 	}
 	
 	public void setNumPlayers(int num){
@@ -65,6 +66,10 @@ public class Dealer {
 		
 		return suitValue;
 	}
+	
+	public void setGame(ClubGame game) {
+		this.game = game;
+	}
 
 	public void setPlayers(Pile<Player> players) {
 		// TODO Auto-generated method stub
@@ -81,9 +86,31 @@ public class Dealer {
 			for(int x = 0; x < 5; ++x){
 				handForPlayer.add(theDeck.remove());
 			}
+			handForPlayer.setDealer(this); //give each hand a reference to the dealer.
 			current.setHand(handForPlayer);
 			current = itr.next();
 		}
+	}
+	//returns index of best card
+	public int getBest () {
+		// TODO Auto-generated method stub
+		Card bestCard = null;
+		
+		Card[] cardsPlayed = getCardsPlayed();
+		int bestCIndex = 0;
+		
+		for(int i = 0; i < cardsPlayed.length; ++i){
+			if(cardsPlayed[i].getSuitValue() > bestCard.getSuitValue()){
+				bestCard = cardsPlayed[i];
+				bestCIndex = i;
+			}
+			else if(cardsPlayed[i].getSuitValue() == bestCard.getSuitValue() &&
+					cardsPlayed[i].getNumber() > bestCard.getNumber()) {
+				bestCard = cardsPlayed[i];
+				bestCIndex = i;
+			}
+		}
+		return bestCIndex;
 	}
 
 }
