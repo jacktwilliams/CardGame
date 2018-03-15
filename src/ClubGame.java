@@ -54,7 +54,7 @@ public class ClubGame {
 		int startOffset = randr.nextInt(numOfPlayers); //startOffset is the same as first player to go
 		
 		java.util.Iterator<Player> itr = players.iterator();
-		Player current = players.head.object;
+		Player currentP = players.head.object;
 		
 		dealer.dealToPlayers();
 		
@@ -63,12 +63,30 @@ public class ClubGame {
 		//this for loop prints players and their cards with an asterisk next to Starting player.
 		for(int i = 0; i < numOfPlayers; ++i){
 			if(i == startOffset){
-				System.out.println(current.toString("*"));
+				System.out.println(currentP.toString("*"));
 			}
 			else{
-				System.out.println(current);
+				System.out.println(currentP);
 			}
-			current = itr.next();
+			currentP = itr.next();
+		}
+		
+		//start of five-trick for loop
+		for(int i = 0; i < 5; ++i) {
+			//first navigate to the player who should start
+			for(int x = 0; x < startOffset; ++x) {
+				currentP = itr.next();
+			}
+			
+			cardsPlayed[i] = currentP.getHand().bestPlay();
+			
+			if(itr.hasNext()) {
+				currentP = itr.next();
+			}
+			else {
+				currentP = players.head.object;
+				itr = players.iterator();
+			}
 		}
 		
 	}
