@@ -28,29 +28,37 @@ public class ClubHand extends Pile<Card> {
 		bestCard = cardsPlayed[0];
 		}
 
-		
-		for(int i = 0; i < cardsPlayed.length; ++i){
-			if(cardsPlayed[i].getSuitValue() > bestCard.getSuitValue()){
-				bestCard = cardsPlayed[i];
-			}
-			else if(cardsPlayed[i].getSuitValue() == bestCard.getSuitValue() &&
-					cardsPlayed[i].getNumber() > bestCard.getNumber()) {
-				bestCard = cardsPlayed[i];
+		for (int i = 0; i < cardsPlayed.length; ++i) {
+			if (cardsPlayed[i] != null) {
+				if (cardsPlayed[i].getSuitValue() > bestCard.getSuitValue()) {
+					bestCard = cardsPlayed[i];
+				} else if (cardsPlayed[i].getSuitValue() == bestCard.getSuitValue()
+						&& cardsPlayed[i].getNumber() > bestCard.getNumber()) {
+					bestCard = cardsPlayed[i];
+				}
 			}
 		}
 		
-		String dealerSuit = cardsPlayed[0].getSuit();
+		String dealerSuit;
+		if(cardsPlayed[0] == null) {
+			dealerSuit = gameDealer.getTrump();
+		}
+		else {
+			dealerSuit = cardsPlayed[0].getSuit();
+		}
 		current = head.object;
-		String currentSuit = current.getSuit();
+		String currentSuit;
 		boolean hasDSuit = false;
 		String trump = gameDealer.getTrump();
 		
 		//check to see if we have a dealer suit card
 		for(int i = 0; i < size; i++) {
+			currentSuit = current.getSuit();
+
 			if(dealerSuit.equals(trump) && currentSuit.equals("Joker")) {
 				hasDSuit = true;
 			}
-			else if(current.getSuitValue() == 5 && current.getNumber() == 11) { 
+			else if(current.getSuitValue() == 11) { 
 				//a complimentary jack is part of trump suit
 				hasDSuit = true;
 			}
@@ -58,33 +66,27 @@ public class ClubHand extends Pile<Card> {
 				hasDSuit = true;
 			}
 			current = itr.next();
-			currentSuit = current.getSuit();
 		}
 		
 		current = head.object;
 		itr = iterator();
-		currentSuit = current.getSuit();
 		
 		/*Note that jacks and complimentary jacks have had suitValue increased in ClubDeck.*/
 		if(hasDSuit) {
 			boolean foundADSuit = false;
 			for(int i = 0; i < size; ++i) {
+				currentSuit = current.getSuit();
 				if(dealerSuit.equals(trump) && currentSuit.equals("Joker")) {
 					toPlay = current;
 					foundADSuit = true;
-				}
-				else if(current.getSuitValue() == 5 && current.getNumber() == 11) {
-					foundADSuit = true;
-					//complimentary jack is part of dealer suit. Go on to compare to see if jack should be played
-				}
-				
-				if(currentSuit.equals(dealerSuit)) {
+				}	
+				if(currentSuit.equals(dealerSuit) || current.getSuitValue() == 11) {
 					//toPlay starts as null, must find first DSuit card for comparisons
 					if(!foundADSuit) {
 						toPlay = current;
 						foundADSuit = true;
 					}
-					//have already found a dealer suit. Can we find better?
+					//have already found a dealer suit. Is this card better than other dsuit card?
 					else if (current.getSuitValue() > toPlay.getSuitValue() || 
 							(current.getSuitValue() == toPlay.getSuitValue() 
 							&& current.getNumber() > toPlay.getNumber()))
@@ -93,17 +95,16 @@ public class ClubHand extends Pile<Card> {
 					}
 				}
 				current = itr.next();
-				currentSuit = current.getSuit();
 			}
-			//if toPlay can't win, find worse card of DSuit
+			//if toPlay can't win, find worst card of DSuit
 			if(bestCard.getSuitValue() > toPlay.getSuitValue() 
 					|| (bestCard.getSuitValue() == toPlay.getSuitValue() 
 					&& bestCard.getNumber() > toPlay.getNumber())) {
 				current = head.object;
 				itr = iterator();
-				currentSuit = current.getSuit();
 				for(int i = 0; i < size; ++i) {
-					if(currentSuit.equals(dealerSuit)) {
+					currentSuit = current.getSuit();
+					if(currentSuit.equals(dealerSuit) || current.getSuitValue() == 11) {
 						if(current.getSuitValue() < toPlay.getSuitValue() ||
 								(current.getSuitValue() == toPlay.getSuitValue() 
 								&& current.getNumber() < toPlay.getNumber())){
@@ -111,7 +112,6 @@ public class ClubHand extends Pile<Card> {
 						}
 					}
 					current = itr.next();
-					currentSuit = current.getSuit();
 				}
 			}
 		}
@@ -125,7 +125,6 @@ public class ClubHand extends Pile<Card> {
 				}
 
 				current = itr.next();
-				currentSuit = current.getSuit();
 			}
 
 			// can toPlay win?
@@ -134,9 +133,9 @@ public class ClubHand extends Pile<Card> {
 				// card can't win. Find worst card
 				current = head.object;
 				itr = iterator();
-				currentSuit = current.getSuit();
 				for (int i = 0; i < size; ++i) {
-
+					currentSuit = current.getSuit();
+					
 					if (current.getSuitValue() < toPlay.getSuitValue()
 							|| (current.getSuitValue() == toPlay.getSuitValue()
 									&& current.getNumber() < toPlay.getNumber())) {
@@ -144,7 +143,6 @@ public class ClubHand extends Pile<Card> {
 
 					}
 					current = itr.next();
-					currentSuit = current.getSuit();
 				}
 			}
 		}

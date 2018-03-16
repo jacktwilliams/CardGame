@@ -50,33 +50,38 @@ public class ClubGame {
 	}
 	
 	public void play(){
-		System.out.println("\n******** Shuffled Deck ********\n" + deck);
-		
 		Random randr = new Random();
 		int startOffset = randr.nextInt(numOfPlayers); //startOffset is the same as first player to go
+		Player currentP;
+		System.out.println("\n******** Shuffled Deck ********\n" + deck);
 		
+
 		java.util.Iterator<Player> itr = players.iterator();
-		Player currentP = players.head.object;
+		currentP = players.head.object;
 		
 		dealer.dealToPlayers();
 		
 		System.out.println("\n******** Cards Delt ********\n");
 		
-		//this for loop prints players and their cards with an asterisk next to Starting player.
-		for(int i = 0; i < numOfPlayers; ++i){
-			if(i == startOffset){
-				System.out.println(currentP.toString("*"));
-			}
-			else{
-				System.out.println(currentP);
-			}
-			currentP = itr.next();
-		}
 		
-		currentP = players.head.object;
-		itr = players.iterator();
 		// start of five-trick for loop
 		for (int i = 0; i < 5; ++i) {
+			//this for loop prints players and their cards with an asterisk next to Starting player.
+			if(i != 0) {
+				System.out.println("\n******** Cards Held ********\n");
+			}
+			for(int x = 0; x < numOfPlayers; ++x){
+				if(x == startOffset){
+					System.out.println(currentP.toString("*"));
+				}
+				else{
+					System.out.println(currentP);
+				}
+				currentP = itr.next();
+			}
+			
+			currentP = players.head.object;
+			itr = players.iterator();
 			// first navigate to the player who should start
 			for (int x = 0; x < startOffset; ++x) {
 				currentP = itr.next();
@@ -84,7 +89,7 @@ public class ClubGame {
 
 			for (int x = 0; x < numOfPlayers; ++x) {
 
-				cardsPlayed[i] = currentP.getHand().bestPlay();
+				cardsPlayed[x] = currentP.getHand().bestPlay();
 
 				if (itr.hasNext()) {
 					currentP = itr.next();
@@ -97,6 +102,7 @@ public class ClubGame {
 			int champPlayer = dealer.getBest();
 			currentP = players.head.object;
 			itr = players.iterator();
+			int newOffset = 0;
 			
 			
 			for(int x = 0; x < numOfPlayers; ++x) {
@@ -109,23 +115,26 @@ public class ClubGame {
 							": " + cardsPlayed[x]);
 				}
 				
-				if((x + startOffset) % numOfPlayers == champPlayer) {
+				if((champPlayer + startOffset) % numOfPlayers == x) {
 					currentP.addWin();
-					startOffset = (x + startOffset) % numOfPlayers; //start at winner player next game
+					newOffset = (champPlayer + startOffset) % numOfPlayers; //start at winner player next game
 				}
-				
 				currentP = itr.next();
 			} //trick moves displayed
-			
+			startOffset = newOffset;
+
 			dealer.setDeck(new ClubDeck(dealer));
 			dealer.dealToPlayers();
 			cardsPlayed = new Card[numOfPlayers];
+			
+			currentP = players.head.object;
+			itr = players.iterator();
 			
 		}//all tricks done
 		currentP = players.head.object;
 		itr = players.iterator();
 		
-		System.out.println("\n********Game Results*******");
+		System.out.println("\n******** Game Results *******\n");
 		for(int i = 0; i < numOfPlayers; ++i) {
 			System.out.println(currentP.getName() + ": " + currentP.getWinCount() + " tricks won.");
 			currentP = itr.next();
