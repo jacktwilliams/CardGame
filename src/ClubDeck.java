@@ -11,63 +11,24 @@ public class ClubDeck extends Deck<Card> {
 		String trump = gameDealer.getTrump();
 		
 		String suit = "Clubs";
-		int suitValue = gameDealer.getSuitValue(suit); //10 for trump suit, 5 for complimentary, 0 for opposite color
 		
 		for(int i = 9; i < 15; ++i) {
-			if(suitValue == 10 && i == 11) {
-				//trump is clubs and we are adding jack. Jack should have higher suitValue
-				this.add(new Card(i, suit, suitValue + 2));
-			}
-			else if(suitValue == 5 && i == 11) {
-				//trump is spades
-				this.add(new Card(i, suit, suitValue+1));
-			}
-			else { 
-				this.add(new Card(i, suit, suitValue));
-			}
+			this.add(new Card(i, suit, gameDealer.getSuitValue(suit, i)));
 		}
 		
 		suit = "Diamonds";
-		suitValue = gameDealer.getSuitValue(suit);
 		for(int i = 9; i < 15; ++i) {
-			if(suitValue == 10 && i == 11) {
-				this.add(new Card(i, suit, suitValue + 2));
-			}
-			else if(suitValue == 5 && i == 11) {
-				this.add(new Card(i, suit, suitValue+1));
-			}
-			else { 
-				this.add(new Card(i, suit, suitValue));
-			}
-
+			this.add(new Card(i, suit, gameDealer.getSuitValue(suit, i)));
 		}
 		
 		suit = "Hearts";
-		suitValue = gameDealer.getSuitValue(suit);
 		for(int i = 9; i < 15; ++i) {
-			if(suitValue == 10 && i == 11) {
-				this.add(new Card(i, suit, suitValue + 2));
-			}
-			else if(suitValue == 5 && i == 11) {
-				this.add(new Card(i, suit, suitValue+1));
-			}
-			else { 
-				this.add(new Card(i, suit, suitValue));
-			}
+			this.add(new Card(i, suit, gameDealer.getSuitValue(suit, i)));
 		}
 		
 		suit = "Spades";
-		suitValue = gameDealer.getSuitValue(suit);
 		for(int i = 9; i < 15; ++i) {
-			if(suitValue == 10 && i == 11) {
-				this.add(new Card(i, suit, suitValue + 2));
-			}
-			else if(suitValue == 5 && i == 11) {
-				this.add(new Card(i, suit, suitValue+1));
-			}
-			else { 
-				this.add(new Card(i, suit, suitValue));
-			}
+			this.add(new Card(i, suit, gameDealer.getSuitValue(suit, i)));
 		}
 		
 		this.add(new Card(15, "Joker", 15)); //15 is highest suit-value

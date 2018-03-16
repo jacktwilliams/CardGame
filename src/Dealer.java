@@ -41,24 +41,27 @@ public class Dealer {
 		cardsPlayed = new Card[numOfPlayers * 5];
 	}
 	
-	public int getSuitValue(String suit){
+	public int getSuitValue(String suit, int i){
 		
 		int suitValue = 0;
 		
-		if(suit.equals(gameTrump)){
+		if(suit.equals(gameTrump) && i != 11){
 			suitValue = 10;
 		}
-		else if (gameTrump.equals("Clubs") && suit.equals("Spades")){
-			suitValue = 5;
+		else if(suit.equals(gameTrump) && i == 11) {
+			suitValue = 12;
 		}
-		else if (gameTrump.equals("Spades") && suit.equals("Clubs")){
-			suitValue = 5;
+		else if (gameTrump.equals("Clubs") && suit.equals("Spades") && i == 11){
+			suitValue = 11;
 		}
-		else if (gameTrump.equals("Hearts") && suit.equals("Diamonds")){
-			suitValue = 5;
+		else if (gameTrump.equals("Spades") && suit.equals("Clubs") && i == 11){
+			suitValue = 11;
 		}
-		else if (gameTrump.equals("Diamonds") && suit.equals("Hearts")){
-			suitValue = 5;
+		else if (gameTrump.equals("Hearts") && suit.equals("Diamonds") && i == 11){
+			suitValue = 11;
+		}
+		else if (gameTrump.equals("Diamonds") && suit.equals("Hearts") && i == 11){
+			suitValue = 11;
 		}
 		else {
 			suitValue = 0; 
@@ -94,7 +97,7 @@ public class Dealer {
 	//returns index of best card
 	public int getBest () {
 		// TODO Auto-generated method stub
-		Card bestCard = null;
+		Card bestCard = new Card(-1, "null", -1);
 		
 		Card[] cardsPlayed = getCardsPlayed();
 		int bestCIndex = 0;

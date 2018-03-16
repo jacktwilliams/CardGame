@@ -154,7 +154,7 @@ public class Pile<AnyType extends Comparable<AnyType>> {
 
 		@Override
 		public boolean hasNext() {
-			return current.next != null;
+			return current.next.object != null;
 		}
 
 		@Override
