@@ -123,8 +123,7 @@ public class ClubGame {
 			} //trick moves displayed
 			startOffset = newOffset;
 
-			dealer.setDeck(new ClubDeck(dealer));
-			dealer.dealToPlayers();
+			
 			cardsPlayed = new Card[numOfPlayers];
 			
 			currentP = players.head.object;

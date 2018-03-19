@@ -133,9 +133,7 @@ public class ClubHand extends Pile<Card> {
 				// card can't win. Find worst card
 				current = head.object;
 				itr = iterator();
-				for (int i = 0; i < size; ++i) {
-					currentSuit = current.getSuit();
-					
+				for (int i = 0; i < size; ++i) {					
 					if (current.getSuitValue() < toPlay.getSuitValue()
 							|| (current.getSuitValue() == toPlay.getSuitValue()
 									&& current.getNumber() < toPlay.getNumber())) {
