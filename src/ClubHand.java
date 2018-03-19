@@ -116,20 +116,11 @@ public class ClubHand extends Pile<Card> {
 			}
 		}
 		else {
-<<<<<<< HEAD
-			// we have no card of dealer suit. Play best card we have if it can win.
-			for (int i = 0; i < size; ++i) {
-
-				if (current.getSuitValue() > bestCard.getSuitValue()
-						|| (current.getSuitValue() == bestCard.getSuitValue()
-								&& current.getNumber() > bestCard.getNumber())) {
-=======
 			toPlay = current;
 			// we have no card of dealer suit. Play best card we have if it can win.
 			for (int i = 0; i < size; ++i) {
 
 				if (current.getNumber() > toPlay.getNumber()) {
->>>>>>> SuitValueFix
 					toPlay = current;
 				}
 
@@ -181,3 +172,4 @@ public class ClubHand extends Pile<Card> {
 
 	
 }
+
