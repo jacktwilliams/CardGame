@@ -88,9 +88,20 @@ public class ClubGame {
 			}
 
 			for (int x = 0; x < numOfPlayers; ++x) {
-
+				
+				//refresh hand suit-values. Dealer suit must be worth more than non-dealer suits
+				if(x != 0) {
+					currentP.getHand().refreshSuitValues(cardsPlayed[0].getSuit());
+				}
+				
 				cardsPlayed[x] = currentP.getHand().bestPlay();
-
+				
+				
+				//if x == 0, then refreshSuit values for hand just played
+				if(x == 0) {
+					dealer.dynamicSetSuitValue(cardsPlayed[0], cardsPlayed[0].getSuit());
+				}
+				
 				if (itr.hasNext()) {
 					currentP = itr.next();
 				} else {

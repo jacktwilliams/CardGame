@@ -77,4 +77,9 @@ public class Card implements Comparable<Card>{
 		}
 		return cardName + " of " + suit;
 	}
+
+	public void setSuitValue(int cardSuitValue) {
+		// TODO Auto-generated method stub
+		this.suitValue = cardSuitValue;
+	}
 }

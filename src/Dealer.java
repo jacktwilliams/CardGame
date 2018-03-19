@@ -46,10 +46,10 @@ public class Dealer {
 		int suitValue = 0;
 		
 		if(suit.equals(gameTrump) && i != 11){
-			suitValue = 10;
+			suitValue = 9;
 		}
 		else if(suit.equals(gameTrump) && i == 11) {
-			suitValue = 12;
+			suitValue = 13;
 		}
 		else if (gameTrump.equals("Clubs") && suit.equals("Spades") && i == 11){
 			suitValue = 11;
@@ -114,6 +114,39 @@ public class Dealer {
 			}
 		}
 		return bestCIndex;
+	}
+
+	public void dynamicSetSuitValue(Card current, String dealerSuit) {
+		// TODO Auto-generated method stub
+		int cardSuitValue = 0;
+		int i = current.getNumber();
+		String cardSuit = current.getSuit();
+		
+		if(cardSuit.equals("Joker")) {
+			cardSuitValue = 15;
+		}
+		else if (cardSuit.equals(gameTrump) && i != 11) {
+			cardSuitValue = 9;
+		} else if (cardSuit.equals(gameTrump) && i == 11) {
+			cardSuitValue = 13;
+		} else if (gameTrump.equals("Clubs") && cardSuit.equals("Spades") && i == 11) {
+			cardSuitValue = 11;
+		} else if (gameTrump.equals("Spades") && cardSuit.equals("Clubs") && i == 11) {
+			cardSuitValue = 11;
+		} else if (gameTrump.equals("Hearts") && cardSuit.equals("Diamonds") && i == 11) {
+			cardSuitValue = 11;
+		} else if (gameTrump.equals("Diamonds") && cardSuit.equals("Hearts") && i == 11) {
+			cardSuitValue = 11;
+		} else {
+			cardSuitValue = 0;
+		}
+
+		if (cardSuit.equals(dealerSuit)) {
+			cardSuitValue += 1;
+		}
+		
+		current.setSuitValue(cardSuitValue);
+
 	}
 
 }

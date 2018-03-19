@@ -25,8 +25,9 @@ public class ClubHand extends Pile<Card> {
 			bestCard = new Card(-1, "null", -1);
 		}
 		else {
-		bestCard = cardsPlayed[0];
+			bestCard = cardsPlayed[0];
 		}
+		
 
 		for (int i = 0; i < cardsPlayed.length; ++i) {
 			if (cardsPlayed[i] != null) {
@@ -71,7 +72,7 @@ public class ClubHand extends Pile<Card> {
 		current = head.object;
 		itr = iterator();
 		
-		/*Note that jacks and complimentary jacks have had suitValue increased in ClubDeck.*/
+		/*Jacks complimentary to trump suit have suitValue 11. Can be 12 if the jack is of the dealer suit*/
 		if(hasDSuit) {
 			boolean foundADSuit = false;
 			for(int i = 0; i < size; ++i) {
@@ -80,7 +81,7 @@ public class ClubHand extends Pile<Card> {
 					toPlay = current;
 					foundADSuit = true;
 				}	
-				if(currentSuit.equals(dealerSuit) || current.getSuitValue() == 11) {
+				if(currentSuit.equals(dealerSuit) || current.getSuitValue() == 11 || current.getSuitValue() == 12) {
 					//toPlay starts as null, must find first DSuit card for comparisons
 					if(!foundADSuit) {
 						toPlay = current;
@@ -104,7 +105,7 @@ public class ClubHand extends Pile<Card> {
 				itr = iterator();
 				for(int i = 0; i < size; ++i) {
 					currentSuit = current.getSuit();
-					if(currentSuit.equals(dealerSuit) || current.getSuitValue() == 11) {
+					if(currentSuit.equals(dealerSuit) || current.getSuitValue() == 11 || current.getSuitValue() == 12) {
 						if(current.getSuitValue() < toPlay.getSuitValue() ||
 								(current.getSuitValue() == toPlay.getSuitValue() 
 								&& current.getNumber() < toPlay.getNumber())){
@@ -165,6 +166,18 @@ public class ClubHand extends Pile<Card> {
 	
 	public void setDealer(Dealer d){
 		this.gameDealer = d;
+	}
+
+	public void refreshSuitValues(String suit) {
+		// TODO Auto-generated method stub
+		Card current = head.object;
+		Iterator<Card> itr = iterator();
+		
+		for(int i = 0; i < size; i++) {
+			gameDealer.dynamicSetSuitValue(current, suit);
+			
+			current = itr.next();
+		}
 	}
 	
 
