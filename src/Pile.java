@@ -90,7 +90,6 @@ public class Pile<AnyType extends Comparable<AnyType>> {
 		++this.size;
 	}
 	
-	@SuppressWarnings("unused")
 	protected AnyType indexRemove(int index) {
 		Node<AnyType> current = head;
 		AnyType removed = null;

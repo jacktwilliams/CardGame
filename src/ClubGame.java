@@ -1,8 +1,6 @@
 import java.util.Random;
 import java.util.Scanner;
 
-import javax.swing.text.html.HTMLDocument.Iterator;
-
 public class ClubGame {
 	private Card cardsPlayed[];
 	private int numOfPlayers;

@@ -5,13 +5,9 @@
 public class ClubDeck extends Deck<Card> {
 	private Dealer gameDealer;
 	public ClubDeck(Dealer d) {
-		
 		gameDealer = d;
 		
-		String trump = gameDealer.getTrump();
-		
 		String suit = "Clubs";
-		
 		for(int i = 9; i < 15; ++i) {
 			this.add(new Card(i, suit, gameDealer.getSuitValue(suit, i)));
 		}
