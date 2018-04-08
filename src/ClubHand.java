@@ -46,6 +46,9 @@ public class ClubHand extends Pile<Card> {
 		}
 		else {
 			dealerSuit = cardsPlayed[0].getSuit();
+			if(cardsPlayed[0].getSuitValue() == 11 || cardsPlayed[0].getSuitValue() == 15){
+				dealerSuit = gameDealer.getTrump();
+			}
 		}
 		current = head.object;
 		String currentSuit;
