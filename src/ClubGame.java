@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -12,7 +14,7 @@ public class ClubGame {
 
 	
 	
-	public ClubGame() {
+	public ClubGame() throws FileNotFoundException {
 		// TODO Auto-generated constructor stub
 		dealer = new Dealer();
 		dealer.setTrump(trump);
@@ -23,7 +25,8 @@ public class ClubGame {
 		dealer.setDeck(deck);
 		
 		System.out.println("3 or 4 players?");
-		Scanner input = new Scanner(System.in);
+		File f = new File("input.dat");
+		Scanner input = new Scanner(f);
 		numOfPlayers = input.nextInt();
 		
 		if(numOfPlayers > 4 || numOfPlayers < 3){
@@ -89,7 +92,7 @@ public class ClubGame {
 				
 				//refresh hand suit-values. Dealer suit must be worth more than non-dealer suits
 				if(x != 0) {
-					currentP.getHand().refreshSuitValues(cardsPlayed[0].getSuit());
+					currentP.getHand().refreshSuitValues(cardsPlayed[0]);
 				}
 				
 				cardsPlayed[x] = currentP.getHand().bestPlay();
@@ -97,8 +100,14 @@ public class ClubGame {
 				
 				//if x == 0, then refreshSuit values for hand just played
 				if(x == 0) {
-					dealer.dynamicSetSuitValue(cardsPlayed[0], cardsPlayed[0].getSuit());
+					dealer.dynamicSetSuitValue(cardsPlayed[0], cardsPlayed[0]);
+					//debugging
+					if(cardsPlayed[x].getNumber() == 11 && cardsPlayed[x].getSuit().equals("Spades")) {
+						x = 0;
+					}
 				}
+				
+				
 				
 				if (itr.hasNext()) {
 					currentP = itr.next();
