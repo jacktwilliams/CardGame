@@ -116,11 +116,16 @@ public class Dealer {
 		return bestCIndex;
 	}
 
-	public void dynamicSetSuitValue(Card current, String dealerSuit) {
+	public void dynamicSetSuitValue(Card current, Card cardPlayed) {
 		// TODO Auto-generated method stub
 		int cardSuitValue = 0;
 		int i = current.getNumber();
 		String cardSuit = current.getSuit();
+		String playedSuit = cardPlayed.getSuit();
+		
+		if(playedSuit.equals("Joker") || cardPlayed.getSuitValue() == 11) {
+			playedSuit = gameTrump;
+		}
 		
 		if(cardSuit.equals("Joker")) {
 			cardSuitValue = 15;
@@ -141,7 +146,7 @@ public class Dealer {
 			cardSuitValue = 0;
 		}
 
-		if (cardSuit.equals(dealerSuit)) {
+		if (cardSuit.equals(cardPlayed)) {
 			cardSuitValue += 1;
 		}
 		

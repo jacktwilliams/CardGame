@@ -171,13 +171,13 @@ public class ClubHand extends Pile<Card> {
 		this.gameDealer = d;
 	}
 
-	public void refreshSuitValues(String suit) {
+	public void refreshSuitValues(Card cardPlayed) {
 		// TODO Auto-generated method stub
 		Card current = head.object;
 		Iterator<Card> itr = iterator();
 		
 		for(int i = 0; i < size; i++) {
-			gameDealer.dynamicSetSuitValue(current, suit);
+			gameDealer.dynamicSetSuitValue(current, cardPlayed);
 			
 			current = itr.next();
 		}
