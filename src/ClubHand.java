@@ -6,6 +6,7 @@ import java.util.Iterator;
  */
 public class ClubHand extends Pile<Card> {
 	private Dealer gameDealer;
+	private String trumpChoice = null;
 	
 	public ClubHand(){
 		
@@ -181,6 +182,119 @@ public class ClubHand extends Pile<Card> {
 			
 			current = itr.next();
 		}
+	}
+	
+	public String getTrumpChoice() {
+		return this.trumpChoice;
+	}
+
+	public int getBid(int currentBid) {
+		Card current = head.object;
+		this.trumpChoice = head.object.getSuit(); //in case this never gets changed. If we have any jacks it will.
+		Iterator<Card> itr = iterator();
+	
+		int bidAmt = 0;		
+		Pile<String> jacks = new Pile<String>();
+		String jackOpt = null;
+		String jackComp = null;
+		boolean foundJack = false;
+		
+		for(int i = 0; i < size; ++i) {
+			if(current.getSuit().equals("Joker")) {
+				++bidAmt;
+			}
+			
+			if (current.getNumber() == 11) {
+				jackOpt = current.getSuit();
+				jacks.add(jackOpt);
+				
+				if(!foundJack) {
+					++bidAmt;
+					foundJack = true; //only add one bid if jack is found.. for starters
+				}
+			}
+			current = itr.next();
+		}
+		if(jacks.size() == 4) {
+			++bidAmt; //guaranteed to have complimentary jacks
+		}
+		else if(jacks.size() > 1) {
+			jackOpt = jacks.head.object;
+			Iterator<String> jitr = jacks.iterator();
+			jackComp = jacks.head.object;
+			Iterator<String> jitr2 = jacks.iterator();
+			
+			for(int i = 0; i < jacks.size() - 1; ++i) {
+				for(int x = i + 1; x < jacks.size(); ++x) {
+					for(int y = 0; y < x; ++y) {
+						jackComp = jitr2.next();
+					} // this loop navigates so that jackComp starts as object located one after jackOpt
+					
+					if(11 == gameDealer.getSuitValue(jackComp, jackOpt, 11)) {
+						++bidAmt; //found complimentary jacks!
+						i = jacks.size(); //break out of loop! Only add one bid for complimentary jacks
+					}
+					
+					if(i != jacks.size()) {
+						//algorithm not stopped, reset itr for next loop
+						jackComp = jacks.head.object;
+						jitr2 = jacks.iterator();
+					}
+				}
+				if (i != jacks.size()) {
+					jackOpt = jitr.next();
+				}
+			}
+		}
+		
+		/* We have added a bid for any joker, any jack, and one more if we have complimentary jacks.
+		 * If we have aces that fit either of our jacks, pick suit accordingly and add bid. 
+		 */
+		
+		current = this.head.object;
+		itr = iterator();
+		
+		if(jackOpt != null) {
+			this.trumpChoice = jackOpt; //start by picking one of the complimentary jack suits
+		}
+		
+		for(int i = 0; i < this.size; ++i) {
+			   if(current.getNumber() == 14) {
+				   //jackOpt/Comp still hold suits of two complimentary jacks
+				   if(current.getSuit().equals(jackOpt)) {
+					   ++bidAmt;
+					   this.trumpChoice = jackOpt;
+					   i = this.size;
+				   }
+				   
+				   else if(current.getSuit().equals(jackComp)) {
+					   ++bidAmt;
+					   this.trumpChoice = jackComp;
+					   i = this.size;
+				   }
+			   }
+			   current = itr.next();
+		}
+		
+		/*if we have four bids (one joker, two complimentary jacks, 
+		 * and one ace that matches one of those jacks) then add a fifth bid if we have a king that matches
+		 * our current trump choice.
+		 */
+		
+		if(bidAmt == 4) {
+			current = this.head.object;
+			itr = iterator();
+			
+			for(int i = 0; i < this.size; ++i) {
+				if(current.getNumber() == 13) {
+					if(current.getSuit().equals(this.trumpChoice)) {
+						++bidAmt;
+						i = this.size;
+					}
+				}
+			}
+		}
+		return bidAmt;
 	}
 	
 

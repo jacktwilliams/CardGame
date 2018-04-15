@@ -1,11 +1,9 @@
-import javax.swing.text.html.HTMLDocument.Iterator;
-
 /*
  * Jack Williams
  * Holds ClubDeck and basic game info
  */
 public class Dealer {
-	private String gameTrump;
+	private String gameTrump = "Clubs"; // this will get updated. LEGACY AND LAZINESS
 	private ClubDeck theDeck;
 	private ClubGame game;
 	private Card[] cardsPlayed;
@@ -42,6 +40,35 @@ public class Dealer {
 	}
 	
 	public int getSuitValue(String suit, int i){
+		
+		int suitValue = 0;
+		
+		if(suit.equals(gameTrump) && i != 11){
+			suitValue = 9;
+		}
+		else if(suit.equals(gameTrump) && i == 11) {
+			suitValue = 13;
+		}
+		else if (gameTrump.equals("Clubs") && suit.equals("Spades") && i == 11){
+			suitValue = 11;
+		}
+		else if (gameTrump.equals("Spades") && suit.equals("Clubs") && i == 11){
+			suitValue = 11;
+		}
+		else if (gameTrump.equals("Hearts") && suit.equals("Diamonds") && i == 11){
+			suitValue = 11;
+		}
+		else if (gameTrump.equals("Diamonds") && suit.equals("Hearts") && i == 11){
+			suitValue = 11;
+		}
+		else {
+			suitValue = 0; 
+		}
+		
+		return suitValue;
+	}
+	
+	public int getSuitValue(String gameTrump, String suit, int i){
 		
 		int suitValue = 0;
 		

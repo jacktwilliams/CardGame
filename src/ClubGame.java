@@ -10,14 +10,9 @@ public class ClubGame {
 	private Dealer dealer;
 	Pile<Player> players;
 	
-	private static final String trump = "Clubs";
-
-	
-	
 	public ClubGame() throws FileNotFoundException {
 		// TODO Auto-generated constructor stub
 		dealer = new Dealer();
-		dealer.setTrump(trump);
 		dealer.setGame(this);
 		
 		deck = new ClubDeck(dealer);
@@ -87,6 +82,33 @@ public class ClubGame {
 			for (int x = 0; x < startOffset; ++x) {
 				currentP = itr.next();
 			}
+			
+			cardsPlayed[0] = dealer.getDeck().remove(); // store flipped up card temporarily
+			if(cardsPlayed[0].getSuit().equals("Clubs")) {
+				dealer.setTrump("Clubs");
+			}
+			else {
+				//start bidding
+				int highestBid = 0;
+				int currentBid;
+				String pickedTrump = cardsPlayed[0].getSuit();
+				for(int x = 0; x < numOfPlayers; ++x) {
+					currentBid = currentP.getHand().getBid(highestBid);
+					if(currentBid > highestBid) {
+						pickedTrump = currentP.getHand().getTrumpChoice();
+						highestBid = currentBid;
+					}
+					
+					if (itr.hasNext()) {
+						currentP = itr.next();
+					} else {
+						currentP = players.head.object;
+						itr = players.iterator();
+					}
+				}
+				dealer.setTrump(pickedTrump);
+			}
+			
 
 			for (int x = 0; x < numOfPlayers; ++x) {
 				
@@ -101,10 +123,6 @@ public class ClubGame {
 				//if x == 0, then refreshSuit values for hand just played
 				if(x == 0) {
 					dealer.dynamicSetSuitValue(cardsPlayed[0], cardsPlayed[0]);
-					//debugging
-					if(cardsPlayed[x].getNumber() == 11 && cardsPlayed[x].getSuit().equals("Spades")) {
-						x = 0;
-					}
 				}
 				
 				

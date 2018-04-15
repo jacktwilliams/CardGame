@@ -20,7 +20,7 @@ public class TestingApp {
 		 * System.out.println(deck);
 		 */
 		ClubGame clubs = new ClubGame();
-		for(int i = 0; i < 100; ++i) {
+		for(int i = 0; i < 1; ++i) {
 			clubs = new ClubGame();
 			clubs.play();
 
