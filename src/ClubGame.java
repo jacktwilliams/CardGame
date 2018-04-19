@@ -83,33 +83,46 @@ public class ClubGame {
 				currentP = itr.next();
 			}
 			
-			cardsPlayed[0] = dealer.getDeck().remove(); // store flipped up card temporarily
-			if(cardsPlayed[0].getSuit().equals("Clubs")) {
-				dealer.setTrump("Clubs");
-			}
-			else {
-				//start bidding
-				int highestBid = 0;
-				int currentBid;
+			/*Bidding block */
+			if(i == 0) {
+				cardsPlayed[0] = dealer.getDeck().remove(); // store flipped up card temporarily
+				System.out.println("******** Flipped ********\n" + cardsPlayed[0]);
+				
 				String pickedTrump = cardsPlayed[0].getSuit();
-				for(int x = 0; x < numOfPlayers; ++x) {
-					currentBid = currentP.getHand().getBid(highestBid);
-					if(currentBid > highestBid) {
-						pickedTrump = currentP.getHand().getTrumpChoice();
-						highestBid = currentBid;
-					}
-					
-					if (itr.hasNext()) {
-						currentP = itr.next();
-					} else {
-						currentP = players.head.object;
-						itr = players.iterator();
-					}
+				String bidWinnerName = "";
+				
+				
+				if(cardsPlayed[0].getSuit().equals("Clubs")) {
+					dealer.setTrump("Clubs");
 				}
-				dealer.setTrump(pickedTrump);
+				else {
+					//start bidding
+					int highestBid = 0; //TODO have players consider current bid or pick last player if all bids are 0
+					//also while we are here, I have seen a player bid hearts, then play their jack of diamonds before their jack of hearts.
+					int currentBid;
+					for(int x = 0; x < numOfPlayers; ++x) {
+						currentBid = currentP.getHand().getBid(highestBid);
+						System.out.println(currentP.getName() + ": " + currentBid);
+						if(currentBid > highestBid) {
+							bidWinnerName = currentP.getName();
+							pickedTrump = currentP.getHand().getTrumpChoice();
+							highestBid = currentBid;
+						}
+						
+						if (itr.hasNext()) {
+							currentP = itr.next();
+						} else {
+							currentP = players.head.object;
+							itr = players.iterator();
+						}
+					}
+					dealer.setTrump(pickedTrump);
+				}
+				
+				System.out.println(bidWinnerName + " picked " + pickedTrump);
 			}
 			
-
+			/*Playing block */
 			for (int x = 0; x < numOfPlayers; ++x) {
 				
 				//refresh hand suit-values. Dealer suit must be worth more than non-dealer suits
