@@ -3,6 +3,7 @@ public class Player implements Comparable<Player>{
 	private String name;
 	private ClubHand hand;
 	private int winCount = 0;
+	private int gameScore = 0;
 	
 	public Player(String name) {
 		// TODO Auto-generated constructor stub
@@ -44,6 +45,19 @@ public class Player implements Comparable<Player>{
 	
 	public int getWinCount() {
 		return this.winCount;
+	}
+	
+	public int getGameScore() {
+		return this.gameScore;
+	}
+	
+	public void updateGameScore(int mod) {
+		this.gameScore += mod;
+	}
+
+	public void resetWinCount() {
+		// TODO Auto-generated method stub
+		this.winCount = 0;
 	}
 
 }

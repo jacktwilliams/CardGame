@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.Bidi;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -49,6 +50,8 @@ public class ClubGame {
 		Random randr = new Random();
 		int startOffset = randr.nextInt(numOfPlayers); //startOffset is the same as first player to go
 		Player currentP;
+		String bidWinnerName = "";
+		int highestBid = 0;
 		System.out.println("\n******** Shuffled Deck ********\n" + deck);
 		
 
@@ -57,14 +60,14 @@ public class ClubGame {
 		
 		dealer.dealToPlayers();
 		
-		System.out.println("\n******** Cards Delt ********\n");
+		System.out.println("\n******** Cards Delt ********");
 		
 		
 		// start of five-trick for loop
 		for (int i = 0; i < 5; ++i) {
 			//this for loop prints players and their cards with an asterisk next to Starting player.
 			if(i != 0) {
-				System.out.println("\n******** Cards Held ********\n");
+				System.out.println("\n******** Cards Held ********");
 			}
 			for(int x = 0; x < numOfPlayers; ++x){
 				if(x == startOffset){
@@ -89,15 +92,14 @@ public class ClubGame {
 				System.out.println("******** Flipped ********\n" + cardsPlayed[0]);
 				
 				String pickedTrump = cardsPlayed[0].getSuit();
-				String bidWinnerName = "";
-				
 				
 				if(cardsPlayed[0].getSuit().equals("Clubs")) {
 					dealer.setTrump("Clubs");
 				}
 				else {
+					System.out.println("\n********Bidding********");
 					//start bidding
-					int highestBid = 0; //TODO have players consider current bid or pick last player if all bids are 0
+					//TODO have players consider current bid or pick last player if all bids are 0
 					//also while we are here, I have seen a player bid hearts, then play their jack of diamonds before their jack of hearts.
 					int currentBid;
 					for(int x = 0; x < numOfPlayers; ++x) {
@@ -122,9 +124,12 @@ public class ClubGame {
 				System.out.println(bidWinnerName + " picked " + pickedTrump);
 			}
 			
+			cardsPlayed[0] = null; //no need for flipped card any longer
+			
+			System.out.println("\n********Cards Played********");
+
 			/*Playing block */
 			for (int x = 0; x < numOfPlayers; ++x) {
-				
 				//refresh hand suit-values. Dealer suit must be worth more than non-dealer suits
 				if(x != 0) {
 					currentP.getHand().refreshSuitValues(cardsPlayed[0]);
@@ -147,7 +152,6 @@ public class ClubGame {
 					itr = players.iterator();
 				}
 			} //cards have been played
-			
 			int champPlayer = dealer.getBest();
 			currentP = players.head.object;
 			itr = players.iterator();
@@ -183,8 +187,25 @@ public class ClubGame {
 		itr = players.iterator();
 		
 		System.out.println("\n******** Game Results *******\n");
-		for(int i = 0; i < numOfPlayers; ++i) {
-			System.out.println(currentP.getName() + ": " + currentP.getWinCount() + " tricks won.");
+		for (int i = 0; i < numOfPlayers; ++i) {
+			if (currentP.getName().equals(bidWinnerName)) {
+				if (currentP.getWinCount() < highestBid) {
+					currentP.updateGameScore(-5);
+				} else {
+					currentP.updateGameScore(currentP.getWinCount());
+				}
+			} else {
+				if (currentP.getWinCount() == 0) {
+					currentP.updateGameScore(-5);
+				} else {
+					currentP.updateGameScore(currentP.getWinCount());
+				}
+			}
+
+			System.out.println(currentP.getName() + ": " + currentP.getWinCount() + " tricks won." +
+			"Game Score: " + currentP.getGameScore());
+			
+			currentP.resetWinCount();
 			currentP = itr.next();
 		}
 	}
