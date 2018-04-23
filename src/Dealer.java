@@ -130,14 +130,16 @@ public class Dealer {
 		int bestCIndex = 0;
 		
 		for(int i = 0; i < cardsPlayed.length; ++i){
-			if(cardsPlayed[i].getSuitValue() > bestCard.getSuitValue()){
-				bestCard = cardsPlayed[i];
-				bestCIndex = i;
-			}
-			else if(cardsPlayed[i].getSuitValue() == bestCard.getSuitValue() &&
-					cardsPlayed[i].getNumber() > bestCard.getNumber()) {
-				bestCard = cardsPlayed[i];
-				bestCIndex = i;
+			if(cardsPlayed[i] != null) {
+				if(cardsPlayed[i].getSuitValue() > bestCard.getSuitValue()){
+					bestCard = cardsPlayed[i];
+					bestCIndex = i;
+				}
+				else if(cardsPlayed[i].getSuitValue() == bestCard.getSuitValue() &&
+						cardsPlayed[i].getNumber() > bestCard.getNumber()) {
+					bestCard = cardsPlayed[i];
+					bestCIndex = i;
+				}
 			}
 		}
 		return bestCIndex;

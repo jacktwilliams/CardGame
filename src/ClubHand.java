@@ -41,16 +41,25 @@ public class ClubHand extends Pile<Card> {
 			}
 		}
 		
-		String dealerSuit;
-		if(cardsPlayed[0] == null) {
-			dealerSuit = gameDealer.getTrump();
-		}
-		else {
-			dealerSuit = cardsPlayed[0].getSuit();
-			if(cardsPlayed[0].getSuitValue() == 11 || cardsPlayed[0].getSuitValue() == 15){
-				dealerSuit = gameDealer.getTrump();
+		String dealerSuit = null;
+		for(int i = 0; i < cardsPlayed.length; ++i) {
+			if(cardsPlayed[i] != null) {
+				dealerSuit = cardsPlayed[i].getSuit();
+				
+				if(cardsPlayed[i].getSuitValue() == 11 || cardsPlayed[i].getSuitValue() == 15){
+					dealerSuit = gameDealer.getTrump();
+				}
+				
+				i = cardsPlayed.length;
 			}
 		}
+		
+		if(dealerSuit == null) {
+			dealerSuit = gameDealer.getTrump();
+		}
+		
+		
+			
 		current = head.object;
 		String currentSuit;
 		boolean hasDSuit = false;
@@ -229,10 +238,11 @@ public class ClubHand extends Pile<Card> {
 					for(int y = 0; y < x; ++y) {
 						jackComp = jitr2.next();
 					} // this loop navigates so that jackComp starts as object located one after jackOpt
-					
+					System.out.println(jackComp + " " + jackOpt);
 					if(11 == gameDealer.getSuitValue(jackComp, jackOpt, 11)) {
 						++bidAmt; //found complimentary jacks!
 						i = jacks.size(); //break out of loop! Only add one bid for complimentary jacks
+						x = jacks.size();
 					}
 					
 					if(i != jacks.size()) {
@@ -295,6 +305,41 @@ public class ClubHand extends Pile<Card> {
 			}
 		}
 		return bidAmt;
+	}
+	
+	public boolean getEntry() {
+		String trump = gameDealer.getTrump();
+		int trickAmt = 0;
+		
+		Iterator<Card> itr = iterator();
+		Card current = this.head.object;
+		
+		int suitValue;
+		
+		for(int i = 0; i < this.size; ++i) {
+			suitValue = gameDealer.getSuitValue(trump, current.getSuit(), current.getNumber());
+			
+			if(current.getSuit().equals("Joker")) {
+				return true;
+			}
+			else if(suitValue > 10) {
+				//complimentary jack's or trump jacks 
+				++trickAmt;
+			}
+			else if(suitValue == 9 && current.getNumber() >= 13) {
+				//ace or king of trump suit
+				++trickAmt;
+			}
+			current = itr.next();
+		}
+		
+		if(trickAmt - 1 > 0) {
+			//cautious playing... conservative
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 
