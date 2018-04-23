@@ -21,8 +21,8 @@ public class ClubGame {
 		dealer.setDeck(deck);
 		
 		System.out.println("3 or 4 players?");
-		File f = new File("input.dat");
-		Scanner input = new Scanner(f);
+		//File f = new File("input.dat");
+		Scanner input = new Scanner(System.in);
 		numOfPlayers = input.nextInt();
 		
 		if(numOfPlayers > 4 || numOfPlayers < 3){
@@ -187,8 +187,10 @@ public class ClubGame {
 					}
 				} // cards have been played
 				int champPlayer = dealer.getBest();
+				/*
 				currentP = players.head.object;
 				itr = players.iterator();
+				*/
 				int newOffset = 0;
 
 				for (int x = 0; x < numOfPlayers; ++x) {
@@ -196,20 +198,25 @@ public class ClubGame {
 						if (x == champPlayer) {
 							System.out.println("Player " + String.valueOf((x + startOffset) % numOfPlayers) + "*: "
 									+ cardsPlayed[x]);
+							currentP.addWin();
+							newOffset = (champPlayer + startOffset) % numOfPlayers; // start at winner player next game
+
+							
 						} else {
 							System.out.println("Player " + String.valueOf((x + startOffset) % numOfPlayers) + ": "
 									+ cardsPlayed[x]);
-						}
-
-						if ((champPlayer + startOffset) % numOfPlayers == x) {
-							currentP.addWin();
-							newOffset = (champPlayer + startOffset) % numOfPlayers; // start at winner player next game
 						}
 					}
 					else {
 						System.out.println("Player " + String.valueOf((x + startOffset) % numOfPlayers) + " (Passed): " + cardsPlayed[x]);
 					}
-					currentP = itr.next();
+					
+					if (itr.hasNext()) {
+						currentP = itr.next();
+					} else {
+						currentP = players.head.object;
+						itr = players.iterator();
+					}
 				} // trick moves displayed
 				startOffset = newOffset;
 

@@ -207,6 +207,7 @@ public class ClubHand extends Pile<Card> {
 		String jackOpt = null;
 		String jackComp = null;
 		boolean foundJack = false;
+		boolean compJacks = false;
 		
 		for(int i = 0; i < size; ++i) {
 			if(current.getSuit().equals("Joker")) {
@@ -238,9 +239,9 @@ public class ClubHand extends Pile<Card> {
 					for(int y = 0; y < x; ++y) {
 						jackComp = jitr2.next();
 					} // this loop navigates so that jackComp starts as object located one after jackOpt
-					System.out.println(jackComp + " " + jackOpt);
 					if(11 == gameDealer.getSuitValue(jackComp, jackOpt, 11)) {
 						++bidAmt; //found complimentary jacks!
+						compJacks = true;
 						i = jacks.size(); //break out of loop! Only add one bid for complimentary jacks
 						x = jacks.size();
 					}
@@ -264,26 +265,25 @@ public class ClubHand extends Pile<Card> {
 		current = this.head.object;
 		itr = iterator();
 		
-		if(jackOpt != null) {
-			this.trumpChoice = jackOpt; //start by picking one of the complimentary jack suits
-		}
-		
-		for(int i = 0; i < this.size; ++i) {
-			   if(current.getNumber() == 14) {
-				   //jackOpt/Comp still hold suits of two complimentary jacks
-				   if(current.getSuit().equals(jackOpt)) {
-					   ++bidAmt;
-					   this.trumpChoice = jackOpt;
-					   i = this.size;
-				   }
-				   
-				   else if(current.getSuit().equals(jackComp)) {
-					   ++bidAmt;
-					   this.trumpChoice = jackComp;
-					   i = this.size;
-				   }
-			   }
-			   current = itr.next();
+		if (compJacks) {
+			this.trumpChoice = jackOpt; // start by picking one of the
+										// complimentary jack suits
+			for (int i = 0; i < this.size; ++i) {
+				if (current.getNumber() == 14) {
+					// jackOpt/Comp still hold suits of two complimentary jacks
+					if (current.getSuit().equals(jackOpt)) {
+						++bidAmt;
+						this.trumpChoice = jackOpt;
+						i = this.size;
+					}
+					else if (current.getSuit().equals(jackComp)) {
+						++bidAmt;
+						this.trumpChoice = jackComp;
+						i = this.size;
+					}
+				}
+				current = itr.next();
+			}
 		}
 		
 		/*if we have four bids (one joker, two complimentary jacks, 
@@ -291,7 +291,7 @@ public class ClubHand extends Pile<Card> {
 		 * our current trump choice.
 		 */
 		
-		if(bidAmt == 4) {
+		if(compJacks) {
 			current = this.head.object;
 			itr = iterator();
 			

@@ -19,7 +19,7 @@ public class TestingApp {
 		 * 
 		 * System.out.println(deck);
 		 */
-		ClubGame clubs = new ClubGame();
+		ClubGame clubs;
 		for(int i = 0; i < 1; ++i) {
 			clubs = new ClubGame();
 			clubs.play();

@@ -127,7 +127,7 @@ public class Dealer {
 		Card bestCard = new Card(-1, "null", -1);
 		
 		Card[] cardsPlayed = getCardsPlayed();
-		int bestCIndex = 0;
+		int bestCIndex = -1;
 		
 		for(int i = 0; i < cardsPlayed.length; ++i){
 			if(cardsPlayed[i] != null) {
