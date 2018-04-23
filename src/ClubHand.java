@@ -69,7 +69,7 @@ public class ClubHand extends Pile<Card> {
 		for(int i = 0; i < size; i++) {
 			currentSuit = current.getSuit();
 
-			if(dealerSuit.equals(trump) && currentSuit.equals("Joker")) {
+			if(currentSuit.equals("Joker")) {
 				hasDSuit = true;
 			}
 			else if(current.getSuitValue() == 11) { 
@@ -90,7 +90,7 @@ public class ClubHand extends Pile<Card> {
 			boolean foundADSuit = false;
 			for(int i = 0; i < size; ++i) {
 				currentSuit = current.getSuit();
-				if(dealerSuit.equals(trump) && currentSuit.equals("Joker")) {
+				if(currentSuit.equals("Joker")) {
 					toPlay = current;
 					foundADSuit = true;
 				}	
@@ -200,6 +200,9 @@ public class ClubHand extends Pile<Card> {
 	public int getBid(int currentBid) {
 		Card current = head.object;
 		this.trumpChoice = head.object.getSuit(); //in case this never gets changed. If we have any jacks it will.
+		if(trumpChoice == "Joker"){
+			trumpChoice = "Clubs";
+		}
 		Iterator<Card> itr = iterator();
 	
 		int bidAmt = 0;		

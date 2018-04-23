@@ -21,8 +21,8 @@ public class ClubGame {
 		dealer.setDeck(deck);
 		
 		System.out.println("3 or 4 players?");
-		//File f = new File("input.dat");
-		Scanner input = new Scanner(System.in);
+		File f = new File("input.dat");
+		Scanner input = new Scanner(f);
 		numOfPlayers = input.nextInt();
 		
 		if(numOfPlayers > 4 || numOfPlayers < 3){
@@ -123,6 +123,9 @@ public class ClubGame {
 						dealer.setTrump(pickedTrump);
 						System.out.println(bidWinnerName + " picked " + pickedTrump);
 					}
+					if (highestBid >= 3) {
+						int u = 0;
+					}
 					
 					System.out.println("\n*******Player Entries*******");
 					//bidding over. Allow players to opt out.
@@ -147,8 +150,6 @@ public class ClubGame {
 					}
 				}
 				
-				
-
 				cardsPlayed[0] = null; // no need for flipped card any longer
 
 				System.out.println("\n********Cards Played********");
@@ -165,6 +166,9 @@ public class ClubGame {
 					}
 					
 					if(currentP.getPlaying()) {
+						if(firstPlay) {
+							currentP.getHand().refreshSuitValues(new Card(14, dealer.getTrump()));
+						}
 						cardsPlayed[x] = currentP.getHand().bestPlay();
 						hasPlayed = true;
 					}
