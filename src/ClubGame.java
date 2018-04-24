@@ -21,8 +21,8 @@ public class ClubGame {
 		dealer.setDeck(deck);
 		
 		System.out.println("3 or 4 players?");
-		File f = new File("input.dat");
-		Scanner input = new Scanner(f);
+		//File f = new File("input.dat");
+		Scanner input = new Scanner(System.in);
 		numOfPlayers = input.nextInt();
 		
 		if(numOfPlayers > 4 || numOfPlayers < 3){
@@ -59,10 +59,10 @@ public class ClubGame {
 		
 		while (!gameOver) {
 			startOffset = randr.nextInt(numOfPlayers);
-			bidWinnerName = "";
 			highestBid = 0;
 			itr = players.iterator();
 			currentP = players.head.object;
+			bidWinnerName = currentP.getName(); //if all players bid 0, then this name will be displayed.
 			deck = new ClubDeck(dealer);
 			dealer.setDeck(deck);
 			System.out.println("\n******** Shuffled Deck ********\n" + deck);
@@ -73,15 +73,26 @@ public class ClubGame {
 			for (int i = 0; i < 5; ++i) {
 				// this for loop prints players and their cards with an asterisk next to
 				// Starting player.
-				if (i != 0) {
-					System.out.println("\n******** Cards Held ********");
-				}
+				System.out.println("\n******** Cards Held ********");
+
 				for (int x = 0; x < numOfPlayers; ++x) {
-					if (x == startOffset) {
-						System.out.println(currentP.toString("*"));
+					if(i == 0) {
+						if (x == startOffset) {
+							System.out.println(currentP.toString("*"));
+						} else {
+							System.out.println(currentP);
+						}
 					} else {
-						System.out.println(currentP);
+						// don't display players who passed.
+						if (currentP.getPlaying()) {
+							if (x == startOffset) {
+								System.out.println(currentP.toString("*"));
+							} else {
+								System.out.println(currentP);
+							}
+						}
 					}
+					
 					currentP = itr.next();
 				}
 

@@ -69,7 +69,7 @@ public class ClubHand extends Pile<Card> {
 		for(int i = 0; i < size; i++) {
 			currentSuit = current.getSuit();
 
-			if(currentSuit.equals("Joker")) {
+			if(currentSuit.equals("Joker") && dealerSuit.equals(trump)) {
 				hasDSuit = true;
 			}
 			else if(current.getSuitValue() == 11) { 
@@ -90,7 +90,7 @@ public class ClubHand extends Pile<Card> {
 			boolean foundADSuit = false;
 			for(int i = 0; i < size; ++i) {
 				currentSuit = current.getSuit();
-				if(currentSuit.equals("Joker")) {
+				if(currentSuit.equals("Joker")  && dealerSuit.equals(trump)) {
 					toPlay = current;
 					foundADSuit = true;
 				}	
