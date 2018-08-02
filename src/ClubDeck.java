@@ -5,33 +5,26 @@
 public class ClubDeck extends Deck<Card> {
 	private Dealer gameDealer;
 	public ClubDeck(Dealer d) {
-		
 		gameDealer = d;
 		
-		String trump = gameDealer.getTrump();
-		
 		String suit = "Clubs";
-		int suitValue = gameDealer.getSuitValue(suit);
 		for(int i = 9; i < 15; ++i) {
-			this.add(new Card(i, suit, suitValue));
+			this.add(new Card(i, suit, gameDealer.getSuitValue(suit, i)));
 		}
 		
 		suit = "Diamonds";
-		suitValue = gameDealer.getSuitValue(suit);
 		for(int i = 9; i < 15; ++i) {
-			this.add(new Card(i, suit, suitValue));
+			this.add(new Card(i, suit, gameDealer.getSuitValue(suit, i)));
 		}
 		
 		suit = "Hearts";
-		suitValue = gameDealer.getSuitValue(suit);
 		for(int i = 9; i < 15; ++i) {
-			this.add(new Card(i, suit, suitValue));
+			this.add(new Card(i, suit, gameDealer.getSuitValue(suit, i)));
 		}
 		
 		suit = "Spades";
-		suitValue = gameDealer.getSuitValue(suit);
 		for(int i = 9; i < 15; ++i) {
-			this.add(new Card(i, suit, suitValue));
+			this.add(new Card(i, suit, gameDealer.getSuitValue(suit, i)));
 		}
 		
 		this.add(new Card(15, "Joker", 15)); //15 is highest suit-value

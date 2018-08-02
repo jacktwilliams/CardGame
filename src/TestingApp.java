@@ -1,10 +1,12 @@
+import java.io.FileNotFoundException;
+
 /*
  * Author: Jack Williams
  * Testing app for testing deck and its shuffle method
  */
 public class TestingApp {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		// TODO Auto-generated method stub
 		/*
 		 * Deck<Card> deck = new Deck<Card>(); Deck<Card> copy = new
@@ -17,8 +19,12 @@ public class TestingApp {
 		 * 
 		 * System.out.println(deck);
 		 */
-		ClubGame clubs = new ClubGame();
-		clubs.play();
+		ClubGame clubs;
+		for(int i = 0; i < 1; ++i) {
+			clubs = new ClubGame();
+			clubs.play();
+
+		}
 	}
 
 }

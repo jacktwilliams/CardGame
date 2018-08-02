@@ -17,7 +17,12 @@ public class Card implements Comparable<Card>{
 
 	public int compareTo(Card o) {
 		// TODO Auto-generated method stub
-		return this.number - o.getNumber();
+		if(this.number == o.number && this.suit.equals(o.suit)) {
+			return 0;
+		}
+		else {
+			return 1;
+		}
 	}
 
 	public int getNumber() {
@@ -71,5 +76,10 @@ public class Card implements Comparable<Card>{
 			
 		}
 		return cardName + " of " + suit;
+	}
+
+	public void setSuitValue(int cardSuitValue) {
+		// TODO Auto-generated method stub
+		this.suitValue = cardSuitValue;
 	}
 }

@@ -1,0 +1,20 @@
+The strategy that players use for bidding goes as follows:
+	Add one bid for a Joker. 
+	Add one bid for any Jack.
+	Add another bid if there are two complimentary jacks and set the trump choice as one of the jacks. 
+	Then, if there were complimentary jacks, then add a bid for an Ace that matches either of those suits. Update the trump choice as the Ace suit.
+	Also, if there were complimentary jacks, then add a bid for a King that matches the trump suit chosen. 
+
+	The strategy is fairly conservative. Bids for Aces and Kings are only added if there is already a decent hand. As of now, Aces will check both of the Jack suits and
+	chose the trump accordingly, but Kings will only add a bid if there is a King that matches the already determined suit.
+	
+The strategy that is used for playing or passing:
+	Play if there is a joker.
+	Otherwise add one trick for any trump suit jack, complimentary jack, trump Ace, or trump King. 
+	If the number of expected tricks is greater than one, then play.
+	This is a conservative strategy that makes sure there is one cushion trick to avoid going negative. 
+	
+A player might bid one, win, and consequently pick the trump. Then, because of the passing strategy, a player will occasionally pass, even after picking trump. 
+
+Also worthy of note: both in bidding and in the decision to pass or play, players do not consider other player's decisions. For example, if all players have bid 0,
+a player will not bid one just to pick the trump. They will not play solely to be the only one playing.
